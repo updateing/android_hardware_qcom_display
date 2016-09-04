@@ -342,20 +342,9 @@ void HwcDebug::dumpLayer(size_t layerIndex, hwc_layer_1_t hwLayers[])
                 tempSkBmpColor = kUnknown_SkColorType;
                 break;
         }
-        if (kUnknown_SkColorType != tempSkBmpColor) {
-            tempSkBmp->setInfo(SkImageInfo::Make(getWidth(hnd), getHeight(hnd),
-                    tempSkBmpColor, kIgnore_SkAlphaType), 0);
-            tempSkBmp->setPixels((void*)hnd->base);
-            bResult = SkImageEncoder::EncodeFile(dumpFilename,
-                                    *tempSkBmp, SkImageEncoder::kPNG_Type, 100);
-            ALOGI("Display[%s] Layer[%zu] %s Dump to %s: %s",
-                mDisplayName, layerIndex, dumpLogStrPng,
-                dumpFilename, bResult ? "Success" : "Fail");
-        } else {
-            ALOGI("Display[%s] Layer[%zu] %s Skipping dump: Unsupported layer"
-                " format %s for png encoder",
-                mDisplayName, layerIndex, dumpLogStrPng, pixFormatStr);
-        }
+        ALOGI("Display[%s] Layer[%zu] %s Skipping dump: Unsupported layer"
+            " format %s for png encoder",
+            mDisplayName, layerIndex, dumpLogStrPng, pixFormatStr);
         delete tempSkBmp; // Calls SkBitmap::freePixels() internally.
     }
 #endif
