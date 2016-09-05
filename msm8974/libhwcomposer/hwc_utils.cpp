@@ -1162,15 +1162,8 @@ void BwcPM::setBwc(hwc_context_t *ctx, const hwc_rect_t& crop,
     if(!qdutils::MDPVersion::getInstance().supportsBWC()) {
         return;
     }
-    int src_w = crop.right - crop.left;
-    int src_h = crop.bottom - crop.top;
-    int dst_w = dst.right - dst.left;
-    int dst_h = dst.bottom - dst.top;
-    if(transform & HAL_TRANSFORM_ROT_90) {
-        swap(src_w, src_h);
-    }
     //src width > MAX mixer supported dim
-    if(src_w > qdutils::MAX_DISPLAY_DIM) {
+    if((crop.right - crop.left) > qdutils::MAX_DISPLAY_DIM) {
         return;
     }
     //Secondary display connected
@@ -1179,10 +1172,24 @@ void BwcPM::setBwc(hwc_context_t *ctx, const hwc_rect_t& crop,
     }
     //Decimation necessary, cannot use BWC. H/W requirement.
     if(qdutils::MDPVersion::getInstance().supportsDecimation()) {
-        uint8_t horzDeci = 0;
-        uint8_t vertDeci = 0;
-        ovutils::getDecimationFactor(src_w, src_h, dst_w, dst_h, horzDeci,
-                vertDeci);
+        int src_w = crop.right - crop.left;
+        int src_h = crop.bottom - crop.top;
+        int dst_w = dst.right - dst.left;
+        int dst_h = dst.bottom - dst.top;
+        if(transform & HAL_TRANSFORM_ROT_90) {
+            swap(src_w, src_h);
+        }
+        float horDscale = 0.0f;
+        float verDscale = 0.0f;
+        int horzDeci = 0;
+        int vertDeci = 0;
+        ovutils::getDecimationFactor(src_w, src_h, dst_w, dst_h, horDscale,
+                verDscale);
+        //TODO Use log2f once math.h has it
+        if((int)horDscale)
+            horzDeci = (int)(log(horDscale) / log(2));
+        if((int)verDscale)
+            vertDeci = (int)(log(verDscale) / log(2));
         if(horzDeci || vertDeci) return;
     }
     //Property
