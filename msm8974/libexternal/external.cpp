@@ -36,6 +36,8 @@
 #include <cutils/properties.h>
 #include "hwc_utils.h"
 #include "external.h"
+#include "overlayUtils.h"
+#include "overlay.h"
 
 using namespace android;
 
@@ -658,6 +660,8 @@ void ExternalDisplay::setExternalDisplay(bool connected, int extFbNum)
         mConnected = connected;
         mConnectedFbNum = extFbNum;
         mHwcContext->dpyAttr[mExtDpyNum].connected = connected;
+        // Update external fb number in Overlay context
+        overlay::Overlay::getInstance()->setExtFbNum(extFbNum);
     }
 }
 

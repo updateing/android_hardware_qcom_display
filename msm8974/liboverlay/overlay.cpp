@@ -384,6 +384,7 @@ void Overlay::PipeBook::destroy() {
 }
 
 Overlay* Overlay::sInstance = 0;
+int Overlay::sExtFbIndex = 1;
 int Overlay::sDpyFbMap[DPY_MAX] = {0, -1, -1};
 int Overlay::sDMAMode = DMA_LINE_MODE;
 int Overlay::sForceSetBitmap = 0;
