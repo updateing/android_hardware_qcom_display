@@ -81,7 +81,6 @@ public:
     utils::Dim getSrcRectDim() const;
     /* setVisualParam */
     bool setVisualParams(const MetaData_t& data);
-    void forceSet();
 
 private:
     /* Perform transformation calculations */
@@ -343,10 +342,6 @@ inline void MdpCtrl::setRotationFlags() {
     const int u = getUserData();
     if (u & MDP_ROT_90)
         mOVInfo.flags |= MDP_SOURCE_ROTATED_90;
-}
-
-inline void MdpCtrl::forceSet() {
-    mForceSet = true;
 }
 
 ///////    MdpCtrl3D //////

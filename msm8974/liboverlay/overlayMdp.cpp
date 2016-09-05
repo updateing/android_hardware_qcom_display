@@ -186,8 +186,7 @@ bool MdpCtrl::set() {
 
     doDownscale();
 
-    if(this->ovChanged() || mForceSet) {
-        mForceSet = false;
+    if(this->ovChanged()) {
         if(!mdp_wrapper::setOverlay(mFd.getFD(), mOVInfo)) {
             ALOGE("MdpCtrl failed to setOverlay, restoring last known "
                   "good ov info");

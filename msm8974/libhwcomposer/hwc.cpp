@@ -124,13 +124,6 @@ static void reset_layer_prop(hwc_context_t* ctx, int dpy, int numAppLayers) {
     ctx->layerProp[dpy] = new LayerProp[numAppLayers];
 }
 
-static void handleGeomChange(hwc_context_t *ctx, int dpy,
-        hwc_display_contents_1_t *list) {
-    if(list->flags & HWC_GEOMETRY_CHANGED) {
-        ctx->mOverlay->forceSet(dpy);
-    }
-}
-
 static int display_commit(hwc_context_t *ctx, int dpy) {
     int fbFd = ctx->dpyAttr[dpy].fd;
     if(fbFd == -1) {
@@ -156,7 +149,6 @@ static int hwc_prepare_primary(hwc_composer_device_1 *dev,
     if (LIKELY(list && list->numHwLayers > 1) &&
             ctx->dpyAttr[dpy].isActive) {
         reset_layer_prop(ctx, dpy, list->numHwLayers - 1);
-        handleGeomChange(ctx, dpy, list);
         setListStats(ctx, list, dpy);
         if(ctx->mMDPComp[dpy]->prepare(ctx, list) < 0) {
             const int fbZ = 0;
@@ -181,7 +173,6 @@ static int hwc_prepare_external(hwc_composer_device_1 *dev,
             ctx->dpyAttr[dpy].isActive &&
             ctx->dpyAttr[dpy].connected) {
         reset_layer_prop(ctx, dpy, list->numHwLayers - 1);
-        handleGeomChange(ctx, dpy, list);
         if(!ctx->dpyAttr[dpy].isPause) {
             ctx->dpyAttr[dpy].isConfiguring = false;
             setListStats(ctx, list, dpy);
