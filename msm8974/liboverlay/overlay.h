@@ -116,6 +116,8 @@ private:
     /*Validate index range, abort if invalid */
     void validate(int index);
     void dump() const;
+    /* Sets the pipe type RGB/VG/DMA*/
+    void setPipeType(utils::eDest pipeIndex, const utils::eMdpPipeType pType);
 
     /* Just like a Facebook for pipes, but much less profile info */
     struct PipeBook {

@@ -109,6 +109,10 @@ bool GenericPipe::setVisualParams(const MetaData_t &metadata)
         return mCtrlData.ctrl.setVisualParams(metadata);
 }
 
+void GenericPipe::setPipeType(const utils::eMdpPipeType& pType) {
+    mCtrlData.ctrl.setPipeType(pType);
+}
+
 bool GenericPipe::commit() {
     bool ret = false;
     int downscale_factor = utils::ROT_DS_NONE;
@@ -173,10 +177,6 @@ bool GenericPipe::isOpen() const  {
 bool GenericPipe::setClosed() {
     pipeState = CLOSED;
     return true;
-}
-
-void GenericPipe::forceSet() {
-    mCtrlData.ctrl.forceSet();
 }
 
 } //namespace overlay

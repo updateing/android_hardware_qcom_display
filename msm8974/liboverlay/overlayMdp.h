@@ -81,6 +81,8 @@ public:
     utils::Dim getSrcRectDim() const;
     /* setVisualParam */
     bool setVisualParams(const MetaData_t& data);
+    /* sets pipe type RGB/DMA/VG */
+    void setPipeType(const utils::eMdpPipeType& pType);
 
 private:
     /* Perform transformation calculations */
